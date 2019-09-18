@@ -1,0 +1,12 @@
+{
+    "env":"default",
+    "api":{
+        "name":"YannickBray",
+        "version":"1.0.0",
+        "baseUrl": "http://localhost:4500",
+        "port":4500
+    },
+    "dbConfig":{
+        "url":"mongodb+srv://brayUser:123456A@cluster0-ecsfx.azure.mongodb.net/test?retryWrites=true&w=majority"
+    }
+}
