@@ -1,0 +1,19 @@
+{
+  "name": "tp1-yannick",
+  "version": "1.0.0",
+  "description": "Le tp1 de yannick",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altarys/YannickBray.git"
+  },
+  "author": "Jeremy Poliquin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/altarys/YannickBray/issues"
+  },
+  "homepage": "https://github.com/altarys/YannickBray#readme"
+}
