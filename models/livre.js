@@ -19,7 +19,7 @@ const livreSchema = new Schema({
 
 livreSchema.virtual('inventaires',{
     ref: 'Inventaire',
-    localfield: '_id',
+    localField: '_id',
     foreignField: 'livres',
     justOne: false
 });
