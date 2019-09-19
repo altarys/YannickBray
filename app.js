@@ -18,9 +18,10 @@ require('./models');
 const routes = require('./routes');
 
 //app.use('/demo',routes.demo);
+app.use('/succursales', routes.succursales);
 
 lib.errors(app);
 
 const PORT = config.api.PORT||4500;
 
-app.listen(PORT,()=>console.log("Server up and running"));
+app.listen(PORT,() => console.log("Server up and running"));
