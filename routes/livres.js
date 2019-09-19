@@ -9,12 +9,13 @@ const ObjectId = mongoose.Types.ObjectId;
 const Shipment = mongoose.model('Livre');
 
 
-router.get('/', async (req,res,next) => {
+router.get('/:uuidLivre', async (req,res,next) => {
 
     
 
 });
 
+// Méthode permettant l'ajout d'un livre
 router.post('/',async (req,res,next)=>{
     
 });
