@@ -7,7 +7,6 @@ const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 const Shipment = mongoose.model('Livre');
 
-
 router.get('/:uuidLivre', async (req,res,next) => {
 
     
