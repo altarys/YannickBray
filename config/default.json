@@ -7,6 +7,6 @@
         "port":4500
     },
     "dbConfig":{
-        "url":"mongodb+srv://brayUser:123456A@cluster0-ecsfx.azure.mongodb.net/test?retryWrites=true&w=majority"
+        "url":"mongodb+srv://brayUser:123456A@cluster0-ecsfx.azure.mongodb.net/YannickBray?retryWrites=true&w=majority"
     }
 }

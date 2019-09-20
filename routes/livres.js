@@ -2,7 +2,6 @@ const moment = require('moment');
 const express = require('express');
 const mongoose = require('mongoose');
 const createError = require('http-errors');
-const randomString = require('randomstring');
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
