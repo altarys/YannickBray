@@ -13,7 +13,7 @@ const succursaleSchema = new Schema({
     telecopieur:String,
     information: String
 }, {
-    collation: 'succursales',
+    collection: 'succursales',
     toJSON: {
         transform: function (doc, ret) {
             ret.href = `${config.api.baseURL}/succursales/${doc._id}`;

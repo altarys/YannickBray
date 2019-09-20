@@ -26,7 +26,7 @@ router.post ('/', async (req, res, next) => {
         }
     } 
     catch (err) {
-
+        next(new createError.InternalServerError(err.message));
     }
 });
 
