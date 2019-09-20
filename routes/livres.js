@@ -7,9 +7,13 @@ const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 const Shipment = mongoose.model('Livre');
 
+// Méthode permettant de sélectionner un livre en particulier de par son code ISBN
 router.get('/:uuidLivre', async (req,res,next) => {
 
-    
+});
+
+// Méthode permettant l'ajout d'un commentaire sur un livre en particulier
+router.post('/:uuidLivre/commentaires', async (req,res,next) => {
 
 });
 
