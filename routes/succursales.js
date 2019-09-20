@@ -29,20 +29,24 @@ router.post ('/', async (req, res, next) => {
         next(new createError.InternalServerError(err.message));
     }
 });
-
+// Route pour obtenir une succursale par son id, inclusion des fields
 router.get('/:_id', async (req,res,next) => {
     try{   
+        // Array pour stocker les champs
         let fields = {};
         if(req.query.fields){
-            fields = req.query.fields.replace(/,/g, ' '); // el regex'o
+            fields = req.query.fields.replace(/,/g, ' '); // Regex pour éliminer les séparations par virgules
             fields = `${fields} `;
         }
+        // Obtien une succursale par son id, filtre les champs à retourner
         let succursaleQuery = Succursale.find({_id: req.params._id},fields);
+        // Affiche la liste d'inventaire
         if(req.query.expand === "inventaires"){
             succursaleQuery.populate('inventaires');
         }
-
+        // Requête Async
         let succursale = await succursaleQuery;
+        // Retourne 404 notfound si la succursale n'existe pas
         if(succursale.length === 0){
             next(new createError.NotFound());
         }
