@@ -7,7 +7,7 @@ const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
 const Shipment = mongoose.model('Livre');
 
-// Méthode permettant de sélectionner un livre en particulier de par son code ISBN
+// Méthode permettant de sélectionner un livre en particulier par son __id
 router.get('/:uuidLivre', async (req,res,next) => {
 
 });
