@@ -30,4 +30,27 @@ router.post ('/', async (req, res, next) => {
     }
 });
 
+router.get('/:_id', async (req,res,next) => {
+    try{   
+        let fields = {};
+        if(req.query.fields){
+            fields = req.query.fields.replace(/,/g, ' '); // el regex'o
+            fields = `${fields} `;
+        }
+        let succursaleQuery = Succursale.find({_id: req.params._id},fields);
+        if(req.query.expand === "inventaires"){
+            succursaleQuery.populate('inventaires');
+        }
+
+        let succursale = await succursaleQuery;
+        if(succursale.length === 0){
+            next(new createError.NotFound());
+        }
+        res.status(200).json(succursale);
+    }catch(err){
+        next(new createError.InternalServerError(err.message));
+    }
+});
+
+
 module.exports = router;
