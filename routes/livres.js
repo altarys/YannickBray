@@ -9,7 +9,22 @@ const Shipment = mongoose.model('Livre');
 
 // Méthode permettant de sélectionner un livre en particulier par son __id
 router.get('/:uuidLivre', async (req,res,next) => {
+    try {
+        let livreQuery = await Livre.findOne({_id: req.params.uuidLivre});
 
+
+        let livre = await livreQuery;
+
+        if(livre.length == 0){
+            // Aucun livre à été trouvé... On retourne une erreur 404.
+            next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+        } else {
+            res.status(200).json(livre[0]);
+        }
+    } catch(err) {
+        next(new createError.InternalServerError(err.message));
+    }
+    
 });
 
 // Méthode permettant l'ajout d'un commentaire sur un livre en particulier
