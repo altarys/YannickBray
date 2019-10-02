@@ -5,7 +5,7 @@ const createError = require('http-errors');
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
-const Shipment = mongoose.model('Livre');
+const Livre = mongoose.model('Livre');
 
 // Méthode permettant de sélectionner un livre en particulier par son __id
 router.get('/:uuidLivre', async (req,res,next) => {
@@ -60,7 +60,24 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
 
 // Méthode permettant l'ajout d'un livre
 router.post('/',async (req,res,next)=>{
-    
+    const newLivre = new Livre(req.body);
+    newLivre.commentaire.dateCommentaire= new moment();
+    try {
+        let saveLivre = await newLivre.save();
+        res.status(201);
+        
+        
+        if (req.query._body === "false") {
+            res.end();
+        } else {
+            saveLivre = saveLivre.toJSON();
+            res.header('Location',saveLivre.href);
+            res.json(saveLivre);
+        }
+    } 
+    catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
 });
 
 /*

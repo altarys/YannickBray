@@ -11,7 +11,7 @@ const Succursale = mongoose.model('Succursale');
 
 router.post ('/', async (req, res, next) => {
     const newSuccursale = new Succursale(req.body);
-
+    
     try {
         let saveSuccursale = await newSuccursale.save();
         res.status(201);
