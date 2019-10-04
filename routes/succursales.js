@@ -9,28 +9,6 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const Succursale = mongoose.model('Succursale');
 
-////////// POUR TEST //////////////
-/*router.get ('/', async (req, res, next) => {
-    try{   
-        // Obtien une succursale par son id, filtre les champs à retourner
-        let succursaleQuery = Succursale.find();
-        // Affiche la liste d'inventaire
-        if(req.query.expand === "inventaires"){
-            succursaleQuery.populate('inventaires');
-        }
-        // Requête Async
-        let succursales = await succursaleQuery;
-        // Retourne 404 notfound si la succursale n'existe pas
-        if(succursales.length === 0){
-            next(new createError.NotFound());
-        }
-        res.status(200).json(succursales);
-    } catch (err){
-        next(new createError.InternalServerError(err.message));
-    }
-});*/
-////////////////////////////////////
-
 // Ajout d'une succursale
 router.post ('/', async (req, res, next) => {
     const newSuccursale = new Succursale(req.body);
