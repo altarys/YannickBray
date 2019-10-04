@@ -44,17 +44,14 @@ succursaleSchema.virtual ('inventaires', {
 });
 
 succursaleSchema.methods.isFullyInitialised = function () {
-    if (this.appelatif === undefined ||
-        this.adresse === undefined ||
-        this.ville === undefined ||
-        this.codePostal === undefined ||
-        this.province === undefined ||
-        this.telephone === undefined ||
-        this.telecopieur === undefined ||
-        this.information === undefined)
-        return false;
-    else
-        return true;
+    return (this.appelatif !== undefined &&
+        this.adresse !== undefined &&
+        this.ville !== undefined &&
+        this.codePostal !== undefined &&
+        this.province !== undefined &&
+        this.telephone !== undefined &&
+        this.telecopieur !== undefined &&
+        this.information !== undefined);
 };
 
 mongoose.model('Succursale', succursaleSchema);
