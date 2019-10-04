@@ -44,14 +44,14 @@ succursaleSchema.virtual ('inventaires', {
 });
 
 succursaleSchema.methods.isFullyInitialised = function () {
-    if (succursaleSchema.appelatif === null ||
-        succursaleSchema.adresse === null ||
-        succursaleSchema.ville === null ||
-        succursaleSchema.codePostal === null ||
-        succursaleSchema.province === null ||
-        succursaleSchema.telephone === null ||
-        succursaleSchema.telecopieur === null ||
-        succursaleSchema.information === null)
+    if (this.appelatif === undefined ||
+        this.adresse === undefined ||
+        this.ville === undefined ||
+        this.codePostal === undefined ||
+        this.province === undefined ||
+        this.telephone === undefined ||
+        this.telecopieur === undefined ||
+        this.information === undefined)
         return false;
     else
         return true;
