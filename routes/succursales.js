@@ -10,7 +10,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const Succursale = mongoose.model('Succursale');
 
 ////////// POUR TEST //////////////
-router.get ('/', async (req, res, next) => {
+/*router.get ('/', async (req, res, next) => {
     try{   
         // Obtien une succursale par son id, filtre les champs à retourner
         let succursaleQuery = Succursale.find();
@@ -28,7 +28,7 @@ router.get ('/', async (req, res, next) => {
     } catch (err){
         next(new createError.InternalServerError(err.message));
     }
-});
+});*/
 ////////////////////////////////////
 
 // Ajout d'une succursale
