@@ -16,7 +16,7 @@ const succursaleSchema = new Schema({
     collection: 'succursales',
     toJSON: {
         transform: function (doc, ret) {
-            ret.href = `${config.api.baseURL}/succursales/${doc._id}`;
+            ret.href = `${config.api.baseUrl}/succursales/${doc._id}`;
             if (!ret.inventaires) {
                 ret.inventaires = {};
                 ret.inventaires.href = `${ret.href}/inventaires`;
@@ -42,5 +42,16 @@ succursaleSchema.virtual ('inventaires', {
     foreignField: 'succursales',
     justOne: false
 });
+
+succursaleSchema.methods.isFullyInitialised = function () {
+    return (this.appelatif !== undefined &&
+        this.adresse !== undefined &&
+        this.ville !== undefined &&
+        this.codePostal !== undefined &&
+        this.province !== undefined &&
+        this.telephone !== undefined &&
+        this.telecopieur !== undefined &&
+        this.information !== undefined);
+};
 
 mongoose.model('Succursale', succursaleSchema);

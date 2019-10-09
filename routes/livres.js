@@ -82,6 +82,24 @@ router.post('/',async (req,res,next)=>{
     }
 });
 
+// Permet de supprimer un livre
+router.delete('/:uuidLivre', async (req,res,next) => {
+    try {
+        let livre = await Livre.findOne({_id: req.params.uuidLivre});
+
+        if (livre === null)
+            throw new createError.NotFound(`Le livre ayant l'identifiant ${req.params.uuidLivre} n'existe pas.`);
+        else {
+            Livre.deleteOne({_id: req.params.uuidLivre}, (err) => {});
+            res.status(204);
+            res.end();
+        }
+
+    } catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
+});
+
 /*
 router.post('/:tracking/activities', async (req,res,next) => {
     
