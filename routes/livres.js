@@ -26,7 +26,7 @@ router.get('/:uuidLivre', async (req,res,next) => {
     } catch(err) {
         next(new createError.InternalServerError(err.message));
     }
-    
+
 });
 
 // Méthode permettant l'ajout d'un commentaire sur un livre en particulier
@@ -57,6 +57,15 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
         
     } catch(err) {
         next(new createError.InternalServerError(err.message));
+    }
+});
+
+router.patch('/:uuidLivre', async(req,res,next) => {
+    try{
+
+    } catch (err)
+    {
+        
     }
 });
 
