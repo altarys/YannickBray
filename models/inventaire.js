@@ -15,6 +15,29 @@ const inventaireSchema= new Schema({
         type : Schema.Types.ObjectId,
         ref: 'Succursale'
     }
+}, {
+    collection: 'inventaires',
+    toJSON: {
+        transform: function(doc, ret) {
+            delete ret._id;
+            delete ret.__v;
+            return ret;
+        }
+    }
 });
 
-mongoose.model('Inventaire',inventaireSchema);
+inventaireSchema.methods.linking = function(uuidLivre, isLivreObjectPresent = true) {
+    const _id = this._id;
+    const livreHref = `${config.api.baseUrl}/livres/${uuidLivre}`;
+    const linkedInventaire = this.toJSON();
+    linkedInventaire.href = `${livreHref}/inventaires/${_id}`;
+    if (isLivreObjectPresent) {
+        linkedInventaire.livres = {}
+        linkedInventaire.livres.href = livreHref;
+    } else {
+        delete linkedInventaire.livres;
+    }
+    return linkedInventaire;
+}
+
+mongoose.model('Inventaire', inventaireSchema);

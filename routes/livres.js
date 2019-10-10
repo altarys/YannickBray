@@ -30,8 +30,18 @@ router.get('/:uuidLivre', async (req,res,next) => {
 });
 
 // Sélection de l'inventaire d'un livre
-router.get('/{uuidLivre}/inventaires', async (req, res, next) => {
-    // TODO
+router.get('/:uuidLivre/inventaires', async (req, res, next) => {
+    try {
+        let livreQuery = Livre.findOne({_id: req.params.uuidLivre});
+        livreQuery.populate('inventaires');
+        let livres = await livreQuery;
+        if (livres.length !== 0){
+            res.status(200).json(livres[0]);
+        } else
+            next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+    } catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
 });
 
 // Méthode permettant l'ajout d'un commentaire sur un livre en particulier
