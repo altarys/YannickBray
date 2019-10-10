@@ -9,6 +9,10 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const Succursale = mongoose.model('Succursale');
 
+
+
+
+
 // Ajout d'une succursale
 router.post ('/', async (req, res, next) => {
     const newSuccursale = new Succursale(req.body);
@@ -47,11 +51,12 @@ router.get('/:uuidSuccursale', async (req,res,next) => {
         }
         // Requête Async
         let succursale = await succursaleQuery;
+        console.log(succursale.inventaires);
         // Retourne 404 notfound si la succursale n'existe pas
         if(succursale.length === 0){
             next(new createError.NotFound());
         }
-        res.status(200).json(succursale);
+        res.status(200).json(succursale[0]);
     }catch(err){
         next(new createError.InternalServerError(err.message));
     }
