@@ -29,6 +29,21 @@ router.get('/:uuidLivre', async (req,res,next) => {
 
 });
 
+router.get('/:categorie', async (req,res,next) =>{
+    try{
+        let livres = await Livre.find({categorie: req.params.categorie})
+
+        if(livres.length == 0){
+            next(new createError.NotFound(`Aucun livre dans la categorie ${req.params.categorie}`));
+
+        }
+        res.status(200).json(livres);
+    }
+    catch(err){
+        next(new createError.InternalServerError(err.message));
+    }
+});
+
 // Méthode permettant l'ajout d'un commentaire sur un livre en particulier
 router.post('/:uuidLivre/commentaires', async (req,res,next) => {
     try {
