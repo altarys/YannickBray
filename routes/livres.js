@@ -29,7 +29,7 @@ router.get('/:uuidLivre', async (req,res,next) => {
 
 });
 
-router.get('/:categorie', async (req,res,next) =>{
+router.get('/', async (req,res,next) =>{
     try{
         let livres = await Livre.find({categorie: req.params.categorie})
 
