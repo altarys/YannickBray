@@ -43,6 +43,7 @@ router.get('/', async (req,res,next) =>{
         next(new createError.InternalServerError(err.message));
     }
 });
+
 // Sélection de l'inventaire d'un livre
 router.get('/:uuidLivre/inventaires', async (req, res, next) => {
     try {
