@@ -21,7 +21,7 @@ const succursaleSchema = new Schema({
                 ret.inventaires = {};
                 ret.inventaires.href = `${ret.href}/inventaires`;
             } else {
-                doc.inventaires.forEach ((inv, i) => {
+                doc.inventaires.forEach((inv, i) => {
                     ret.inventaires[i] = inv.linking(doc._id, false);
                 });
             }

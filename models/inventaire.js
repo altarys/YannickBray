@@ -8,7 +8,7 @@ const inventaireSchema= new Schema({
     dateDerniereReception: Date,
     dateDerniereVente: Date,
     livres:{
-        type:Schema.Types.ObjectId,
+        type : Schema.Types.ObjectId,
         ref:'Livre'
     },
     succursales:{
