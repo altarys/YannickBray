@@ -126,7 +126,10 @@ router.patch('/:uuidLivre', async(req,res,next) => {
 // Méthode permettant l'ajout d'un livre
 router.post('/',async (req,res,next)=>{
     const newLivre = new Livre(req.body);
-    newLivre.commentaire.dateCommentaire= new moment();
+    newLivre.commentaires.forEach(commentaire => {
+        commentaire.dateCommentaire = new moment();
+    });
+    
     try {
         let saveLivre = await newLivre.save();
         res.status(201);
