@@ -31,13 +31,36 @@ router.get('/:uuidLivre', async (req,res,next) => {
 
 router.get('/', async (req,res,next) =>{
     try{
-        let livres = await Livre.find({categorie: req.params.categorie})
 
-        if(livres.length == 0){
-            next(new createError.NotFound(`Aucun livre dans la categorie ${req.params.categorie}`));
+        let limit = 5;
+        let offset = 0;
 
+        let results;
+        console.log(req.query.categorie);
+        if(req.query.categorie)
+        {
+            results = await Promise.all([
+                Livre.find({categorie: req.query.categorie}).limit(limit).skip(offset),
+                Livre.countDocuments()
+            ])
         }
-        res.status(200).json(livres);
+        else{
+            results = await Promise.all([
+                Livre.find().limit(limit).skip(offset),
+                Livre.countDocuments()
+            ])
+        }
+        console.log(results);
+        let responseBody = {};
+        responseBody.metadata = {};
+        responseBody.metadata.resultset = {
+            count : results[0].length,
+            limit: limit,
+            offset : offset,
+            total : results[1]
+        }
+        responseBody.results = results[0];
+        res.status(200).json(responseBody);
     }
     catch(err){
         next(new createError.InternalServerError(err.message));
@@ -113,7 +136,7 @@ router.post('/',async (req,res,next)=>{
             res.end();
         } else {
             saveLivre = saveLivre.toJSON();
-            res.header('Location',saveLivre.href);
+            res.header('location',saveLivre.href);
             res.json(saveLivre);
         }
     } 
