@@ -5,7 +5,7 @@ const createError = require('http-errors');
 
 const router = express.Router();
 const ObjectId = mongoose.Types.ObjectId;
-const Shipment = mongoose.model('Livre');
+const Livre = mongoose.model('Livre');
 
 // Méthode qui sélectionne toutes les catégories
 /*

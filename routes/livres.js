@@ -35,6 +35,7 @@ router.get('/:uuidLivre/inventaires', async (req, res, next) => {
         let livreQuery = Livre.findOne({_id: req.params.uuidLivre});
         livreQuery.populate('inventaires');
         let livres = await livreQuery;
+        console.log(livres);
         if (livres.length !== 0){
             res.status(200).json(livres[0]);
         } else
