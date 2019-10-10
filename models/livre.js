@@ -33,6 +33,12 @@ const livreSchema = new Schema({
             ret.version = doc.__v;
             delete ret.__v;
 
+            if(ret.commentaires) {
+                ret.commentaires.forEach(c => {
+					delete c._id;
+				});
+            }
+
             return ret;
         }
     }, 
