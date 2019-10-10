@@ -11,7 +11,7 @@ const inventaireSchema= new Schema({
         type:Schema.Types.ObjectId,
         ref:'Livre'
     },
-    Succursales:{
+    succursales:{
         type : Schema.Types.ObjectId,
         ref: 'Succursale'
     }

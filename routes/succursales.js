@@ -31,7 +31,7 @@ router.post ('/', async (req, res, next) => {
     }
 });
 // Route pour obtenir une succursale par son id, inclusion des fields
-router.get('/:_id', async (req,res,next) => {
+router.get('/:uuidSuccursale', async (req,res,next) => {
     try{   
         // Array pour stocker les champs
         let fields = {};
@@ -40,7 +40,7 @@ router.get('/:_id', async (req,res,next) => {
             fields = `${fields} `;
         }
         // Obtien une succursale par son id, filtre les champs à retourner
-        let succursaleQuery = Succursale.find({_id: req.params._id},fields);
+        let succursaleQuery = Succursale.find({_id: req.params.uuidSuccursale},fields);
         // Affiche la liste d'inventaire
         if(req.query.expand === "inventaires"){
             succursaleQuery.populate('inventaires');
@@ -58,16 +58,16 @@ router.get('/:_id', async (req,res,next) => {
 });
 
 
-router.put ('/:_id', async (req, res, next) => {
+router.put ('/:uuidSuccursale', async (req, res, next) => {
     try {
-        let succursale = await Succursale.findOne({'_id': req.params._id});
+        let succursale = await Succursale.findOne({'_id': req.params.uuidSuccursale});
         if (succursale === null)
-            next(new createError.NotFound(`La succursale ayant l'identifiant ${req.params._id} est inexistante.`));
+            next(new createError.NotFound(`La succursale ayant l'identifiant ${req.params.uuidSuccursale} est inexistante.`));
         else {
             newSuccursale = new Succursale(req.body);
             if (newSuccursale.isFullyInitialised()) {
                 await Succursale.updateOne(
-                    { "_id": req.params._id },
+                    { "_id": req.params.uuidSuccursale },
                     { 
                         "appelatif": req.body.appelatif,
                         "adresse": req.body.adresse,
@@ -83,7 +83,7 @@ router.put ('/:_id', async (req, res, next) => {
                 if (req.query._body === "false") {
                     res.end();
                 } else {
-                    succursale = await Succursale.findOne({'_id': req.params._id});
+                    succursale = await Succursale.findOne({'_id': req.params.uuidSuccursale});
                     succursale = succursale.toJSON();
                     res.header('Location',succursale.href);
                     res.json(succursale);

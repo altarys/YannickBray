@@ -27,6 +27,11 @@ router.get('/:uuidLivre', async (req,res,next) => {
     
 });
 
+// Sélection de l'inventaire d'un livre
+router.get('/{uuidLivre}/inventaires', async (req, res, next) => {
+    // TODO
+});
+
 // Méthode permettant l'ajout d'un commentaire sur un livre en particulier
 router.post('/:uuidLivre/commentaires', async (req,res,next) => {
     try {
