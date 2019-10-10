@@ -8,9 +8,10 @@ const ObjectId = mongoose.Types.ObjectId;
 const Shipment = mongoose.model('Livre');
 
 // Méthode qui sélectionne toutes les catégories
+/*
 router.get('/', async (req,res,next) => {
 
-});
+});*/
 
 
 module.exports = router; 
