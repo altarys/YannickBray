@@ -10,13 +10,13 @@ const livreSchema = new Schema({
     auteur: String,
     sujet: String,
     ISBN: Number,
-    commentaires:{
+    commentaires:[{
         commentaire:{
             dateCommentaire:Date,
             message: String,
             etoile: Number
         }
-    }
+    }]
 }, {
     collection: 'livres', 
     toJSON: {
