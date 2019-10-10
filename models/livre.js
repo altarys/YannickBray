@@ -15,6 +15,28 @@ const livreSchema = new Schema({
         message: String,
         etoile: Number
     }
+}, {
+    collection: 'livres', 
+    toJSON: {
+        transform: function(doc, ret) {
+            ret.href = `${config.api.baseUrl}/livres/${doc._id}`;
+            if (!ret.inventaires) {
+                ret.inventaires = {};
+                ret.inventaires.href = `${ret.href}/inventaires`;
+            } else {
+                doc.inventaires.forEach((inv, i) => {
+                    ret.inventaires[i] = inv.linking(doc._id, false);
+                });
+            }
+
+            delete ret._id;
+            ret.version = doc.__v;
+            delete ret.__v;
+
+            return ret;
+        }
+    }, 
+    virtuals: true
 });
 
 livreSchema.virtual('inventaires',{
@@ -24,4 +46,4 @@ livreSchema.virtual('inventaires',{
     justOne: false
 });
 
-mongoose.model('Livre',livreSchema);
+mongoose.model('Livre', livreSchema);

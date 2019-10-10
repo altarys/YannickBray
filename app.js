@@ -20,6 +20,7 @@ const routes = require('./routes');
 //app.use('/demo',routes.demo);
 app.use('/succursales', routes.succursales);
 app.use('/livres',routes.livres);
+app.use('/inventaires',routes.inventaires);
 lib.errors(app);
 
 const PORT = config.api.PORT||4500;
