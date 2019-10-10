@@ -96,7 +96,7 @@ router.get('/:uuidLivre/inventaires', async (req, res, next) => {
 router.post('/:uuidLivre/commentaires', async (req,res,next) => {
     try {
         let livre = await Livre.findOne({_id: req.params.uuidLivre});
-
+        
         // On regarde si le livre existe
         if(livre.length == 0){
             // Aucun livre à été trouvé... On retourne une erreur 404.
@@ -114,7 +114,7 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
         let livreSauvegarder = await livre.save();
 
         res.status(201);
-        const responseBody = shipment.toJSON();
+        const responseBody = livre.toJSON();
         res.header('Location', responseBody.href);
         res.json(responseBody);
         
