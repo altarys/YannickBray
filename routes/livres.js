@@ -75,18 +75,16 @@ router.get('/:uuidLivre/inventaires', async (req, res, next) => {
             fields = req.query.fields.replace(/,/g, ' ');
             fields = `${fields}`;
         }
-
         let livreQuery = Livre.find({_id: req.params.uuidLivre}, fields);
         if(req.query.expand === "inventaires"){
             livreQuery.populate('inventaires');
         }
-        let livres = await livreQuery;
-        console.log(livres[0].inventaires);
-        if (livres.length === 0){
+        let livre = await livreQuery;
+        if (livre.length === 0){
             next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
         }
-        console.log(livres[0]);
-        res.status(200).json(livres[0]);
+        //console.log(livre[0].inventaires);
+        res.status(200).json(livre[0]);
     } catch (err) {
         next(new createError.InternalServerError(err.message));
     }
