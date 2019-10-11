@@ -26,14 +26,14 @@ router.get('/:uuidLivre', async (req,res,next) => {
             
             if(livres.length == 0){
                 // Aucun livre à été trouvé... On retourne une erreur 404.¸
-                next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+                next(new createError.NotFound("Aucun livre ne possède cet identifiant"));
             }
 
             console.log(livreQuery);
             res.status(200).json(livres[0]);
         } catch(err)
         {
-            next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+            next(new createError.NotFound("Aucun livre ne possède cet identifiant"));
         }
     } catch(err) {
         next(new createError.InternalServerError(err.message));
@@ -72,6 +72,7 @@ router.get('/', async (req,res,next) =>{
             total : results[1]
         }
         responseBody.results = results[0];
+        
         res.status(200).json(responseBody);
     }
     catch(err){
@@ -83,11 +84,15 @@ router.get('/', async (req,res,next) =>{
 router.get('/:uuidLivre/inventaires', async (req, res, next) => {
     try {
         let livreQuery = Livre.findOne({_id: req.params.uuidLivre}).populate('inventaires');
-        let livre = await livreQuery;
-        if (livre){
-            res.status(200).json(livre);
-        } else {
-            next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+        try {
+            let livre = await livreQuery;
+            if (livre){
+                res.status(200).json(livre);
+            } else {
+                next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
+            }
+        } catch (err) {
+            next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
         }
     } catch (err) {
         next(new createError.InternalServerError(err.message));
@@ -97,29 +102,34 @@ router.get('/:uuidLivre/inventaires', async (req, res, next) => {
 // Méthode permettant l'ajout d'un commentaire sur un livre en particulier
 router.post('/:uuidLivre/commentaires', async (req,res,next) => {
     try {
-        let livre = await Livre.findOne({_id: req.params.uuidLivre});
-        
-        // On regarde si le livre existe
-        if(livre.length == 0){
-            // Aucun livre à été trouvé... On retourne une erreur 404.
-            next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
-        } 
-        
-        // On crée les commentaires du livre
-        let commentaire = req.body;
-        commentaire.dateCommentaire = moment();
+        let livreQuery = Livre.findOne({_id: req.params.uuidLivre});
+        try{
+            let livre = await livreQuery;
 
-        // On ajoute ces commentaires au livre choisi
-        livre.commentaires.push(commentaire);
+            // On regarde si le livre existe
+            if(livre.length == 0){
+                // Aucun livre à été trouvé... On retourne une erreur 404.
+                next(new createError.NotFound(`Aucun livre possède cet identifiant`));
+            } 
+            
+            // On crée les commentaires du livre
+            let commentaire = req.body;
+            
+            commentaire.dateCommentaire = moment();
 
-        // On enregistre les commentaires sur le livre sélectionné.
-        let livreSauvegarder = await livre.save();
+            // On ajoute ces commentaires au livre choisi
+            livre.commentaires.push(commentaire);
 
-        res.status(201);
-        const responseBody = livre.toJSON();
-        res.header('Location', responseBody.href);
-        res.json(responseBody);
-        
+            // On enregistre les commentaires sur le livre sélectionné.
+            let livreSauvegarder = await livre.save();
+
+            res.status(201);
+            const responseBody = livre.toJSON();
+            res.header('Location', responseBody.href);
+            res.json(responseBody);
+        } catch(err) {
+            next(new createError.NotFound(`Aucun livre possède cet identifiant`));
+        }
     } catch(err) {
         next(new createError.InternalServerError(err.message));
     }
@@ -127,10 +137,47 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
 
 router.patch('/:uuidLivre', async(req,res,next) => {
     try{
+        let livreQuery = Livre.findOne({_id: req.params.uuidLivre});
+         
+        // Enlève l'erreur du CastID (Erreur d'ID impossible selon les standards Mongo)
+        try{
+            let livreAModifier = await livreQuery;
+           
+            // Si le livre n'a pas été trouvé en BD
+            if(livreAModifier.length == 0){
+                // Aucun livre à été trouvé... On retourne une erreur 404.
+                next(new createError.NotFound(`Échec de la modification: Aucun livre possède cet identifiant`));
+            } 
 
+            // Regarde si le livre possède une clé similaire à celui de la requête.
+            for(var key in req.body)
+            {
+                if(livreAModifier[key] == undefined)
+                    next(new createError.NotFound(`Échec de la modification: Un livre ne possède pas un champ ${key}."`));
+                else if(key == "_id")
+                    next(new createError.NotFound("Échec de la modification: Cet élément ne peut être modifier."));
+            }
+
+            // Les modifications
+            let patchLivre = req.body;
+           
+            // On sauvegarde la modification
+            let livreSauvegarder = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: patchLivre});
+            
+            if (req.query._body === "false") {
+                res.status(200).end();
+            } else {
+                // On rappel notre objet modifié
+                let livreModifier = await livreQuery;
+                res.status(200).json(livreModifier);
+            }
+
+        } catch (err){
+            next(new createError.NotFound(`Échec de la modification: Aucun livre possède cet identifiant`));
+        }
     } catch (err)
     {
-        
+        next(new createError.InternalServerError(err.message));
     }
 });
 
