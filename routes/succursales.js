@@ -34,7 +34,7 @@ router.post ('/', async (req, res, next) => {
         next(new createError.InternalServerError(err.message));
     }
 });
-// Route pour obtenir une succursale par son id, inclusion des fields
+// Route pour obtenir une succursale par son id, inclusion des fields et expand
 router.get('/:uuidSuccursale', async (req,res,next) => {
     try{   
         // Array pour stocker les champs
@@ -45,18 +45,24 @@ router.get('/:uuidSuccursale', async (req,res,next) => {
         }
         // Obtien une succursale par son id, filtre les champs à retourner
         let succursaleQuery = Succursale.find({_id: req.params.uuidSuccursale},fields);
-        // Affiche la liste d'inventaire
-        if(req.query.expand === "inventaires"){
-            succursaleQuery.populate('inventaires');
+
+        try {
+            // Affiche la liste d'inventaires
+            if(req.query.expand === "inventaires"){
+                succursaleQuery.populate('inventaires');
+            }
+            // Requête Async
+            let succursale = await succursaleQuery;
+
+            // Retourne 404 notfound si la succursale n'existe pas
+            if(succursale.length === 0){
+                next(new createError.NotFound(`La succursale avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+            }
+            res.status(200).json(succursale[0]);
+        } catch(err)
+        {
+            next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
         }
-        // Requête Async
-        let succursale = await succursaleQuery;
-        console.log(succursale[0].inventaires);
-        // Retourne 404 notfound si la succursale n'existe pas
-        if(succursale.length === 0){
-            next(new createError.NotFound());
-        }
-        res.status(200).json(succursale[0]);
     }catch(err){
         next(new createError.InternalServerError(err.message));
     }
