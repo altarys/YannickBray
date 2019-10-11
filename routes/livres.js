@@ -82,21 +82,13 @@ router.get('/', async (req,res,next) =>{
 // Sélection de l'inventaire d'un livre
 router.get('/:uuidLivre/inventaires', async (req, res, next) => {
     try {
-        let fields = {}
-        if (req.query.fields) {
-            fields = req.query.fields.replace(/,/g, ' ');
-            fields = `${fields}`;
-        }
-        let livreQuery = Livre.find({_id: req.params.uuidLivre}, fields);
-        if(req.query.expand === "inventaires"){
-            LivreQuery.populate('inventaires');
-        }
+        let livreQuery = Livre.findOne({_id: req.params.uuidLivre}).populate('inventaires');
         let livre = await livreQuery;
-        if (livre.length === 0){
+        if (livre){
+            res.status(200).json(livre);
+        } else {
             next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
         }
-        //console.log(livre[0].inventaires);
-        res.status(200).json(livre[0]);
     } catch (err) {
         next(new createError.InternalServerError(err.message));
     }
@@ -183,35 +175,6 @@ router.delete('/:uuidLivre', async (req,res,next) => {
         next(new createError.InternalServerError(err.message));
     }
 });
-
-/*
-router.post('/:tracking/activities', async (req,res,next) => {
-    
-});*/
-
-/*
-router.post('/:tracking/packages', async (req, res, next) =>{
-    try{
-    //1. Trouver le shipment avec :tracking
-    let shipment = await Shipment.findOne({tracking: req.params.tracking});
-    if(shipment === null){
-        //1.a -> pas de shipment avec tracking 404
-        next(new createError.NotFound(`Le shipment avec le tracking ${req.params.tracking} n'existe pas.`));
-    }
-    //2. Creer un package
-    let newPacakge = new Package(req.body);
-    //3. Associer le _id du shipment au package
-    newPacakge.shipment = shipment._id; // Creation de la relation
-    //4. Sauvegarder
-    let SavedPackage = await newPacakge.save();
-    SavedPackage = SavedPackage.linking(req.params.tracking);
-    res.header('Location', SavedPackage.href);
-    res.status(201).json(SavedPackage);
-    }catch(err){
-        next(new createError.InternalServerError(err.message));
-    }
-})
-*/
 
 router.delete('/', (req,res,next) => {
     next(new createError.MethodNotAllowed());
