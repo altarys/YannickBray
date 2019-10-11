@@ -10,14 +10,26 @@ const Livre = mongoose.model('Livre');
 // Méthode permettant de sélectionner un livre en particulier par son __id
 router.get('/:uuidLivre', async (req,res,next) => {
     try {
-        let livreQuery = Livre.find({_id: req.params.uuidLivre});
+        let fields = {};
+        if(req.query.fields){
+            fields = req.query.fields.replace(/,/g, ' '); // Regex pour éliminer les séparations par virgules
+            fields = `${fields} `;
+        }
+        let livreQuery = Livre.find({_id: req.params.uuidLivre},fields);
         try {
+            
+            if(req.query.expand === "inventaires"){
+                livreQuery.populate('inventaires');
+            }
+
             let livres = await livreQuery;
+            
             if(livres.length == 0){
                 // Aucun livre à été trouvé... On retourne une erreur 404.¸
                 next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
             }
 
+            console.log(livreQuery);
             res.status(200).json(livres[0]);
         } catch(err)
         {
