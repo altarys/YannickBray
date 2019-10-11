@@ -118,6 +118,7 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
             
             // On crée les commentaires du livre
             let commentaire = req.body;
+            
             commentaire.dateCommentaire = moment();
 
             // On ajoute ces commentaires au livre choisi
