@@ -141,22 +141,42 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
 router.patch('/:uuidLivre', async(req,res,next) => {
     try{
         let livreQuery = Livre.findOne({_id: req.params.uuidLivre});
-
+         
         // Enlève l'erreur du CastID (Erreur d'ID impossible selon les standards Mongo)
         try{
-            let livre = await livreQuery;
-
+            let livreAModifier = await livreQuery;
+           
             // Si le livre n'a pas été trouvé en BD
-            if(livre.length == 0){
+            if(livreAModifier.length == 0){
                 // Aucun livre à été trouvé... On retourne une erreur 404.
-                next(new createError.NotFound(`Aucun livre possède cet identifiant`));
+                next(new createError.NotFound(`Échec de la modification: Aucun livre possède cet identifiant`));
             } 
 
-            
+            // Regarde si le livre possède une clé similaire à celui de la requête.
+            for(var key in req.body)
+            {
+                if(livreAModifier[key] == undefined)
+                    next(new createError.NotFound(`Échec de la modification: Un livre ne possède pas un champ ${key}."`));
+                else if(key == "_id")
+                    next(new createError.NotFound("Échec de la modification: Cet élément ne peut être modifier."));
+            }
 
+            // Les modifications
+            let patchLivre = req.body;
+           
+            // On sauvegarde la modification
+            let livreSauvegarder = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: patchLivre});
+            
+            if (req.query._body === "false") {
+                res.status(200).end();
+            } else {
+                // On rappel notre objet modifié
+                let livreModifier = await livreQuery;
+                res.status(200).json(livreModifier);
+            }
 
         } catch (err){
-            next(new createError.NotFound(`Aucun livre possède cet identifiant`));
+            next(new createError.NotFound(`Échec de la modification: Aucun livre possède cet identifiant`));
         }
     } catch (err)
     {
