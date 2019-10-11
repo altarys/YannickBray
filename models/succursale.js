@@ -17,7 +17,6 @@ const succursaleSchema = new Schema({
     toJSON: {
         transform: function (doc, ret) {
             ret.href = `${config.api.baseUrl}/succursales/${doc._id}`;
-            console.log(ret.inventaires);
             if (!ret.inventaires) {
                 ret.inventaires = {};
                 ret.inventaires.href = `${ret.href}/inventaires`;

@@ -77,7 +77,7 @@ router.get('/:uuidLivre/inventaires', async (req, res, next) => {
         }
         let livreQuery = Livre.find({_id: req.params.uuidLivre}, fields);
         if(req.query.expand === "inventaires"){
-            livreQuery.populate('inventaires');
+            LivreQuery.populate('inventaires');
         }
         let livre = await livreQuery;
         if (livre.length === 0){
@@ -94,7 +94,7 @@ router.get('/:uuidLivre/inventaires', async (req, res, next) => {
 router.post('/:uuidLivre/commentaires', async (req,res,next) => {
     try {
         let livre = await Livre.findOne({_id: req.params.uuidLivre});
-
+        
         // On regarde si le livre existe
         if(livre.length == 0){
             // Aucun livre à été trouvé... On retourne une erreur 404.
@@ -112,7 +112,7 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
         let livreSauvegarder = await livre.save();
 
         res.status(201);
-        const responseBody = shipment.toJSON();
+        const responseBody = livre.toJSON();
         res.header('Location', responseBody.href);
         res.json(responseBody);
         
@@ -133,7 +133,9 @@ router.patch('/:uuidLivre', async(req,res,next) => {
 // Méthode permettant l'ajout d'un livre
 router.post('/',async (req,res,next)=>{
     const newLivre = new Livre(req.body);
-    newLivre.commentaire.dateCommentaire= new moment();
+    newLivre.commentaires.forEach(commentaire => {
+        commentaire.dateCommentaire = new moment();
+    });
     try {
         let saveLivre = await newLivre.save();
         res.status(201);

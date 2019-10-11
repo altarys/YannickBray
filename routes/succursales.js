@@ -51,7 +51,6 @@ router.get('/:uuidSuccursale', async (req,res,next) => {
         }
         // Requête Async
         let succursale = await succursaleQuery;
-        console.log(succursale.inventaires);
         // Retourne 404 notfound si la succursale n'existe pas
         if(succursale.length === 0){
             next(new createError.NotFound());

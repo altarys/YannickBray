@@ -11,11 +11,9 @@ const livreSchema = new Schema({
     sujet: String,
     ISBN: Number,
     commentaires:[{
-        commentaire:{
-            dateCommentaire:Date,
-            message: String,
-            etoile: Number
-        }
+        dateCommentaire:Date,
+        message: String,
+        etoile: Number
     }]
 }, {
     collection: 'livres', 
@@ -35,6 +33,13 @@ const livreSchema = new Schema({
             delete ret._id;
             ret.version = doc.__v;
             delete ret.__v;
+
+            if(ret.commentaires) {
+                ret.commentaires.forEach(c => {
+					delete c._id;
+				});
+            }
+
             return ret;
         }
     }, 
