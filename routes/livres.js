@@ -81,25 +81,22 @@ router.get('/', async (req,res,next) =>{
 
 // Sélection de l'inventaire d'un livre
 router.get('/:uuidLivre/inventaires', async (req, res, next) => {
-    try {
-        let fields = {}
-        if (req.query.fields) {
-            fields = req.query.fields.replace(/,/g, ' ');
-            fields = `${fields}`;
-        }
+    try{   
 
-        let livreQuery = Livre.find({_id: req.params.uuidLivre}, fields);
+        let LivreQuery = Livre.find({_id: req.params.uuidLivre});
+        // Affiche la liste d'inventaire
         if(req.query.expand === "inventaires"){
-            livreQuery.populate('inventaires');
+            LivreQuery.populate('inventaires');
         }
-        let livres = await livreQuery;
-        console.log(livres[0].inventaires);
-        if (livres.length === 0){
-            next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+        // Requête Async
+        let livre = await LivreQuery;
+        console.log(livre[0].inventaires);
+        // Retourne 404 notfound si la succursale n'existe pas
+        if(livre.length === 0){
+            next(new createError.NotFound());
         }
-        console.log(livres[0]);
-        res.status(200).json(livres[0]);
-    } catch (err) {
+        res.status(200).json(livre[0]);
+    }catch(err){
         next(new createError.InternalServerError(err.message));
     }
 });
@@ -150,7 +147,6 @@ router.post('/',async (req,res,next)=>{
     newLivre.commentaires.forEach(commentaire => {
         commentaire.dateCommentaire = new moment();
     });
-    
     try {
         let saveLivre = await newLivre.save();
         res.status(201);
