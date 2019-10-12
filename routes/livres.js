@@ -23,12 +23,12 @@ router.get('/:uuidLivre', async (req,res,next) => {
             
             if(livres.length == 0){
                 // Aucun livre à été trouvé... On retourne une erreur 404.¸
-                next(new createError.NotFound("Aucun livre possède cet identifiant"));
+                next(new createError.NotFound("Aucun livre ne possède cet identifiant"));
             }
             res.status(200).json(livres[0]);
         } catch(err)
         {
-            next(new createError.NotFound("Aucun livre possède cet identifiant"));
+            next(new createError.NotFound("Aucun livre ne possède cet identifiant"));
         }
     } catch(err) {
         next(new createError.InternalServerError(err.message));
@@ -85,18 +85,16 @@ router.get('/', async (req,res,next) =>{
 // Sélection de l'inventaire d'un livre
 router.get('/:uuidLivre/inventaires', async (req, res, next) => {
     try {
-        let fields = {}
-        if (req.query.fields) {
-            fields = req.query.fields.replace(/,/g, ' ');
-            fields = `${fields}`;
-        }
-        let livreQuery = Livre.find({_id: req.params.uuidLivre}, fields);
-        if(req.query.expand === "inventaires"){
-            LivreQuery.populate('inventaires');
-        }
-        let livre = await livreQuery;
-        if (livre.length === 0){
-            next(new createError.NotFound("Aucun livre possède cet identifiant"));
+        let livreQuery = Livre.findOne({_id: req.params.uuidLivre}).populate('inventaires');
+        try {
+            let livre = await livreQuery;
+            if (livre){
+                res.status(200).json(livre);
+            } else {
+                next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
+            }
+        } catch (err) {
+            next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
         }
         res.status(200).json(livre[0]);
     } catch (err) {
