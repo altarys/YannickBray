@@ -87,7 +87,7 @@ router.get('/:uuidLivre/inventaires', async (req, res, next) => {
         try {
             let livre = await livreQuery;
             if (livre){
-                res.status(200).json(livre);
+                res.status(200).json(livre.inventaires);
             } else {
                 next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
             }
@@ -109,7 +109,7 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
             // On regarde si le livre existe
             if(livre.length == 0){
                 // Aucun livre à été trouvé... On retourne une erreur 404.
-                next(new createError.NotFound(`Aucun livre possède cet identifiant`));
+                next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
             } 
             
             // On crée les commentaires du livre
@@ -128,7 +128,7 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
             res.header('Location', responseBody.href);
             res.json(responseBody);
         } catch(err) {
-            next(new createError.NotFound(`Aucun livre possède cet identifiant`));
+            next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
         }
     } catch(err) {
         next(new createError.InternalServerError(err.message));
@@ -208,16 +208,19 @@ router.post('/',async (req,res,next)=>{
 // Permet de supprimer un livre
 router.delete('/:uuidLivre', async (req,res,next) => {
     try {
-        let livre = await Livre.findOne({_id: req.params.uuidLivre});
-
-        if (livre === null)
-            throw new createError.NotFound(`Le livre ayant l'identifiant ${req.params.uuidLivre} n'existe pas.`);
-        else {
-            Livre.deleteOne({_id: req.params.uuidLivre}, (err) => {});
-            res.status(204);
-            res.end();
+        try {
+            let livre = await Livre.findOne({_id: req.params.uuidLivre});
+    
+            if (livre === null)
+                next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
+            else {
+                Livre.deleteOne({_id: req.params.uuidLivre}, (err) => {});
+                res.status(204);
+                res.end();
+            }
+        } catch (err) {
+            next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
         }
-
     } catch (err) {
         next(new createError.InternalServerError(err.message));
     }

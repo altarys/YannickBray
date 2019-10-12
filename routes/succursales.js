@@ -16,7 +16,6 @@ const Succursale = mongoose.model('Succursale');
 // Ajout d'une succursale
 router.post ('/', async (req, res, next) => {
     const newSuccursale = new Succursale(req.body);
-    
     try {
         let saveSuccursale = await newSuccursale.save();
         res.status(201);
@@ -31,7 +30,11 @@ router.post ('/', async (req, res, next) => {
         }
     } 
     catch (err) {
-        next(new createError.InternalServerError(err.message));
+        if (err.name === 'ValidationError')
+            for (field in err.errors)
+                next(new createError.UnprocessableEntity(`Le champ ${err.errors[field].path} est invalide`));
+        else
+            next(new createError.InternalServerError(err.message));
     }
 });
 // Route pour obtenir une succursale par son id, inclusion des fields
@@ -64,42 +67,56 @@ router.get('/:uuidSuccursale', async (req,res,next) => {
 
 router.put ('/:uuidSuccursale', async (req, res, next) => {
     try {
-        let succursale = await Succursale.findOne({'_id': req.params.uuidSuccursale});
-        if (succursale === null)
-            next(new createError.NotFound(`La succursale ayant l'identifiant ${req.params.uuidSuccursale} est inexistante.`));
-        else {
-            newSuccursale = new Succursale(req.body);
-            if (newSuccursale.isFullyInitialised()) {
-                await Succursale.updateOne(
-                    { "_id": req.params.uuidSuccursale },
-                    { 
-                        "appelatif": req.body.appelatif,
-                        "adresse": req.body.adresse,
-                        "ville": req.body.ville,
-                        "codePostal": req.body.codePostal,
-                        "province": req.body.province,
-                        "telephone": req.body.telephone,
-                        "telecopieur":req.body.telecopieur,
-                        "information": req.body.information 
+        try {
+            let succursale = await Succursale.findOne({'_id': req.params.uuidSuccursale});
+            if (succursale === null)
+                next(new createError.NotFound(`La succursale ayant l'identifiant ${req.params.uuidSuccursale} est inexistante.`));
+            else {
+                newSuccursale = new Succursale(req.body);
+                if (newSuccursale.isFullyInitialised()) {
+                    await Succursale.updateOne(
+                        { "_id": req.params.uuidSuccursale },
+                        { 
+                            "appelatif": req.body.appelatif,
+                            "adresse": req.body.adresse,
+                            "ville": req.body.ville,
+                            "codePostal": req.body.codePostal,
+                            "province": req.body.province,
+                            "telephone": req.body.telephone,
+                            "telecopieur":req.body.telecopieur,
+                            "information": req.body.information 
+                        }
+                    )
+                    res.status(200);
+                    if (req.query._body === "false") {
+                        res.end();
+                    } else {
+                        succursale = await Succursale.findOne({'_id': req.params.uuidSuccursale});
+                        succursale = succursale.toJSON();
+                        res.header('Location',succursale.href);
+                        res.json(succursale);
                     }
-                )
-                res.status(200);
-                if (req.query._body === "false") {
-                    res.end();
                 } else {
-                    succursale = await Succursale.findOne({'_id': req.params.uuidSuccursale});
-                    succursale = succursale.toJSON();
-                    res.header('Location',succursale.href);
-                    res.json(succursale);
+                    next(new createError.UnprocessableEntity('Les informations entrées ne sont pas complètes.'));
                 }
-            } else {
-                next(new createError.UnprocessableEntity('Les informations entrées ne sont pas complètes.'));
             }
+        } catch (err) {
+            next(new createError.NotFound(`La succursale ayant l'identifiant ${req.params.uuidSuccursale} est inexistante.`));
         }
     } 
     catch (err) {
         next(new createError.InternalServerError(err.message));
     }
+});
+
+router.delete('/', (req,res,next) => {
+    next(new createError.MethodNotAllowed());
+});
+router.patch('/', (req,res,next) => {
+    next(new createError.MethodNotAllowed());
+});
+router.put('/', (req,res,next) => {
+    next(new createError.MethodNotAllowed());
 });
 
 module.exports = router;

@@ -4,12 +4,12 @@ const config = require('config');
 const Schema = mongoose.Schema;
 
 const succursaleSchema = new Schema({
-    appelatif: String,
-    adresse: String,
-    ville: String,
-    codePostal: String,
-    province: String,
-    telephone: String,
+    appelatif: { type: String, required: true },
+    adresse: { type: String, required: true },
+    ville: { type: String, required: true },
+    codePostal: { type: String, required: true },
+    province: { type: String, required: true },
+    telephone: { type: String, required: true },
     telecopieur:String,
     information: String
 }, {

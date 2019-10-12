@@ -19,6 +19,7 @@ const inventaireSchema= new Schema({
     collection: 'inventaires',
     toJSON: {
         transform: function(doc, ret) {
+            ret.href = `${config.api.baseUrl}/inventaires/${doc._id}`;
             delete ret._id;
             delete ret.__v;
             return ret;
