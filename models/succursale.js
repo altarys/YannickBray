@@ -44,6 +44,7 @@ succursaleSchema.virtual ('inventaires', {
 });
 
 succursaleSchema.methods.isFullyInitialised = function () {
+    // On retourne false si un champ n'est pas initialisé
     return (this.appelatif !== undefined &&
         this.adresse !== undefined &&
         this.ville !== undefined &&

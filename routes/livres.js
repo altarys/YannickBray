@@ -85,9 +85,12 @@ router.get('/', async (req,res,next) =>{
 // Sélection de l'inventaire d'un livre
 router.get('/:uuidLivre/inventaires', async (req, res, next) => {
     try {
+        // On trouve le livre et son inventaire
         let livreQuery = Livre.findOne({_id: req.params.uuidLivre}).populate('inventaires');
         try {
+            // On passe la query
             let livre = await livreQuery;
+            // On affiche son inventaire
             if (livre){
                 res.status(200).json(livre.inventaires);
             } else {
@@ -216,8 +219,9 @@ router.post('/',async (req,res,next)=>{
 router.delete('/:uuidLivre', async (req,res,next) => {
     try {
         try {
+            // On trouve le livre à supprimer
             let livre = await Livre.findOne({_id: req.params.uuidLivre});
-    
+            // Si un livre est trouvé
             if (livre === null)
                 next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
             else {
@@ -233,6 +237,7 @@ router.delete('/:uuidLivre', async (req,res,next) => {
     }
 });
 
+// Routes non permises
 router.delete('/', (req,res,next) => {
     next(new createError.MethodNotAllowed());
 });
