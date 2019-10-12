@@ -3,8 +3,9 @@
 
 ## AUTEUR: 
 - Bohdan Byrne-Langlois (0873641) Équipier A 
-- Jérémie Ouimet (1568282) Équipier C 
 - Jeremy Poliquin (1356053) Équipier B 
+- Jérémie Ouimet (1568282) Équipier C 
+
 
 # Marche à suivre pour utiliser l'application:
 
@@ -23,6 +24,13 @@ Tout navigateur internet (Chrome, Firefox, Opera fortement conseillés)
 6. Finalement, executez la commande ```npm run dev``` pour lancer le serveur en mode développeur,
    ou ```npm run prod``` pour rouler en environement de production.
 
+## Modifications : 
+
+Dans le dossier **config** vous trouverez le fichier *default.json* dans lequel vous pourrez modifier certains paramètres de connexion.
+
+- ```"baseURL": ``` Contient l'URL qui recevera toutes les requêtes à effectuer ( avec Postman ).
+- ```"port": ``` Contient le port qui écoutera pour les requêtes entrantes.
+- ```"dbConfig": { "url":``` Contient l'adresse de connexion pour la base de données.
 
 Cégep de Saint-Jérôme, tous droits réservés. 2019 ©
 
