@@ -27,9 +27,9 @@ const succursaleSchema = new Schema({
             }
 
             delete ret._id;
+            delete ret.id;
             ret.version = doc.__v;
             delete ret.__v;
-
             return ret;
         },
         virtuals: true

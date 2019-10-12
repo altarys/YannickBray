@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const createError = require('http-errors');
 
 const router = express.Router();
-const ObjectId = mongoose.Types.ObjectId;
 const Livre = mongoose.model('Livre');
 
 // Méthode permettant de sélectionner un livre en particulier par son __id
@@ -16,20 +15,16 @@ router.get('/:uuidLivre', async (req,res,next) => {
             fields = `${fields} `;
         }
         let livreQuery = Livre.find({_id: req.params.uuidLivre},fields);
-        try {
-            
+        try {          
             if(req.query.expand === "inventaires"){
                 livreQuery.populate('inventaires');
             }
-
             let livres = await livreQuery;
             
             if(livres.length == 0){
                 // Aucun livre à été trouvé... On retourne une erreur 404.¸
                 next(new createError.NotFound("Aucun livre ne possède cet identifiant"));
             }
-
-            console.log(livreQuery);
             res.status(200).json(livres[0]);
         } catch(err)
         {
@@ -41,38 +36,45 @@ router.get('/:uuidLivre', async (req,res,next) => {
 
 });
 
+// Méthode permettant de retourner tout les livres soit d'une catégorie en particulier, ou tout les livres en bd
 router.get('/', async (req,res,next) =>{
     try{
-
+        // Puisque aucune limite ni offset n'était specifiée dans le devis, voici des valeures testes pour tester la fonctionnalité
         let limit = 5;
         let offset = 0;
-
         let results;
-        console.log(req.query.categorie);
+        
         if(req.query.categorie)
-        {
+        {       
             results = await Promise.all([
                 Livre.find({categorie: req.query.categorie}).limit(limit).skip(offset),
                 Livre.countDocuments()
-            ])
+            ])                            
+            // Si le paramètre catégorie existe dans l'url, rechercher uniquement les livres appartenant à cette catégorie     
         }
         else{
+            // Sinon, retourne tout les livres de la BD
             results = await Promise.all([
                 Livre.find().limit(limit).skip(offset),
                 Livre.countDocuments()
             ])
         }
-        console.log(results);
+        // Création d'un responseBody pour y stocker les metadatas
         let responseBody = {};
         responseBody.metadata = {};
         responseBody.metadata.resultset = {
+            // Ajout du compte d'éléments retournés
             count : results[0].length,
             limit: limit,
             offset : offset,
+            // Total de tout les éléments
             total : results[1]
         }
-        responseBody.results = results[0];
-        
+        // Si aucun livre n'est retourné, on indique au client que la catégorie spécifiée ne contient aucun livre
+        if(results[0].length === 0)
+            next (new createError.NotFound(`Il n'y a aucun livre dans cette catégorie`));
+
+        responseBody.results = results[0];   
         res.status(200).json(responseBody);
     }
     catch(err){
@@ -94,6 +96,7 @@ router.get('/:uuidLivre/inventaires', async (req, res, next) => {
         } catch (err) {
             next(new createError.NotFound(`Aucun livre ne possède cet identifiant`));
         }
+        res.status(200).json(livre[0]);
     } catch (err) {
         next(new createError.InternalServerError(err.message));
     }
@@ -121,7 +124,7 @@ router.post('/:uuidLivre/commentaires', async (req,res,next) => {
             livre.commentaires.push(commentaire);
 
             // On enregistre les commentaires sur le livre sélectionné.
-            let livreSauvegarder = await livre.save();
+            await livre.save();
 
             res.status(201);
             const responseBody = livre.toJSON();
@@ -183,22 +186,26 @@ router.patch('/:uuidLivre', async(req,res,next) => {
 
 // Méthode permettant l'ajout d'un livre
 router.post('/',async (req,res,next)=>{
-    const newLivre = new Livre(req.body);
-    newLivre.commentaires.forEach(commentaire => {
-        commentaire.dateCommentaire = new moment();
-    });
     try {
+        // Valide si la requête Json contient un corps, refuse de créer le livre et indique BadRequest si aucun body n'est fourni
+        if(!Object.keys(req.body).length)
+            next(new createError.BadRequest(`La requete doit contenir un corps Json pour l'ajout d'un livre`));
+   
+        // Crée un nouveau livre avec les informations reçues dans le body
+        const newLivre = new Livre(req.body);
+         
+        // Pour chaque commentaire du livre, ajout de la date par le serveur
+        newLivre.commentaires.forEach(commentaire => {
+            commentaire.dateCommentaire = new moment();
+        });
+            
+        // Sauvegarde le livre et envoi un code de succès de création
         let saveLivre = await newLivre.save();
         res.status(201);
-        
-        
-        if (req.query._body === "false") {
-            res.end();
-        } else {
-            saveLivre = saveLivre.toJSON();
-            res.header('location',saveLivre.href);
-            res.json(saveLivre);
-        }
+
+        saveLivre = saveLivre.toJSON();
+        res.header('location',saveLivre.href);
+        res.json(saveLivre);    
     } 
     catch (err) {
         next(new createError.InternalServerError(err.message));
