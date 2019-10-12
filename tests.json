@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Equipier A - Sélection d’une succursale avec fields et expand inventaires",
+			"name": "Équipier A - Sélection d’une succursale avec fields et expand inventaires",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -30,14 +30,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:4500/succursales/5d84c73c64f05e4958e56516?fields=appelatif,codePostal&expand=inventaires",
+					"raw": "localhost:4500/succursales/5d84c973605d4a09b4acc6c6?fields=appelatif,codePostal&expand=inventaires",
 					"host": [
 						"localhost"
 					],
 					"port": "4500",
 					"path": [
 						"succursales",
-						"5d84c73c64f05e4958e56516"
+						"5d84c973605d4a09b4acc6c6"
 					],
 					"query": [
 						{
@@ -55,7 +55,7 @@
 			"response": []
 		},
 		{
-			"name": "Equipier A - Ajout d'un livre",
+			"name": "Équipier A - Ajout d'un livre",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -68,7 +68,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"categorie\": \"Ouvrage Informatique\",\r\n    \"titre\": \"La biographie de Yannick\",\r\n    \"prix\": \"150\",\r\n    \"auteur\": \"Yannick-C\",\r\n    \"sujet\": \"Python\",\r\n    \"ISBN\": \"123\",\r\n    \"commentaires\":[{\r\n        \"message\": \"Excellent !\",\r\n        \"etoile\": \"5\"\r\n    }]\r\n}",
+					"raw": "{\r\n\t\"categorie\": \"Ouvrage Informatique\",\r\n    \"titre\": \"La biographie de Yannick\",\r\n    \"prix\": \"150\",\r\n    \"auteur\": \"Yannick-C\",\r\n    \"sujet\": \"Cobol\",\r\n    \"ISBN\": \"123\",\r\n    \"commentaires\":[{\r\n        \"message\": \"Excellent !\",\r\n        \"etoile\": \"5\"\r\n    }]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -91,7 +91,7 @@
 			"response": []
 		},
 		{
-			"name": "Equipier A - Selection de tout les livres",
+			"name": "Équipier A - Selection de tout les livres",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -116,7 +116,7 @@
 			"response": []
 		},
 		{
-			"name": "Equipier B - Sélection de toutes les catégories",
+			"name": "Équipier B - Sélection de toutes les catégories",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -148,7 +148,7 @@
 			"response": []
 		},
 		{
-			"name": "Equipier B - Sélection d'un livre ",
+			"name": "Équipier B - Sélection d'un livre ",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -168,7 +168,7 @@
 			"response": []
 		},
 		{
-			"name": "Equipier B - Ajout d'un commentaire sur un livre",
+			"name": "Équipier B - Ajout d'un commentaire sur un livre",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -199,7 +199,7 @@
 			"response": []
 		},
 		{
-			"name": "Equipier B - Mise à jour partielle d'un livre",
+			"name": "Équipier B - Mise à jour partielle d'un livre",
 			"request": {
 				"method": "PATCH",
 				"header": [
@@ -232,6 +232,122 @@
 						}
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Équipier C - Ajout d'une succursale",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"appelatif\": \"Robert Ann's\",\n\t\"adresse\": \"420 rue Chartreuse\",\n\t\"ville\": \"Saint-Jérôme\",\n\t\"codePostal\": \"A1A 1A1\",\n\t\"province\": \"Québec\",\n\t\"telephone\": \"123 456 7890\",\n\t\"telecopieur\": \"123 456 7890\",\n\t\"information\": \"ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOMBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n}"
+				},
+				"url": {
+					"raw": "localhost:4500/succursales?_body=true",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"succursales"
+					],
+					"query": [
+						{
+							"key": "_body",
+							"value": "true"
+						}
+					]
+				},
+				"description": "Ajout d'une succursale en BD"
+			},
+			"response": []
+		},
+		{
+			"name": "Équipier C - Modification Complète Succursale",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"appelatif\": \"Taco Bell\",\r\n        \"adresse\": \"145 rue Chartreuse\",\r\n        \"ville\": \"Trou a pépette\",\r\n        \"province\": \"Québec\",\r\n        \"codePostal\": \"A1A 1A1\",\r\n        \"telephone\": \"111 111 1111\",\r\n        \"telecopieur\": \"123 456 7890\",\r\n        \"information\": \"MMMMM MUCHAS BURITOoooOS AMIGOOOOO! ME GUSTA LOS TACOOOOOSSSS\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4500/succursales/5d84c9aa605d4a09b4acc6c7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"succursales",
+						"5d84c9aa605d4a09b4acc6c7"
+					]
+				},
+				"description": "Modification d'une succursale reçu en paramètre"
+			},
+			"response": []
+		},
+		{
+			"name": "Équipier C - Supprimer un livre",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4500/livres/5da134b36f03f848c8c761fd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"livres",
+						"5da134b36f03f848c8c761fd"
+					]
+				},
+				"description": "Suppression d'un livre selon un uuidLivre reçu en paramètre"
+			},
+			"response": []
+		},
+		{
+			"name": "Équipier C - Sélection des inventaires d'un livre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4500/livres/5d9f62cd8bee161ff05cf980/inventaires",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"livres",
+						"5d9f62cd8bee161ff05cf980",
+						"inventaires"
+					]
+				},
+				"description": "Sélection des inventaires (collection) d'un livre selon un uuidLivre reçu en paramètre"
 			},
 			"response": []
 		}
