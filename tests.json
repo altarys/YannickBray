@@ -212,7 +212,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"commentaire\":[\n\t\t{\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 3,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.374Z\"\n        },\n        {\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 5,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.375Z\"\n        }\n\t],\n\t\"titre\":\"Pomme d'Api\",\n\t\"auteur\":\"Gabriel\",\n\t\"sujet\":\"PrisonScape\",\n\t\"prix\":102\n}"
+					"raw": "{\n\t\"commentaires\":[\n\t\t{\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 3,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.374Z\"\n        },\n        {\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 5,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.375Z\"\n        }\n\t],\n\t\"titre\":\"Pomme d'Api\",\n\t\"auteur\":\"Gabriel\",\n\t\"sujet\":\"PrisonScape\",\n\t\"prix\":102\n}"
 				},
 				"url": {
 					"raw": "http://localhost:4500/livres/5d9f62cd8bee161ff05cf980?_body=true",
