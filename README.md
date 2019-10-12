@@ -2,9 +2,9 @@
 ## Projet réalisé pour le cours de M. Yannick C. intitulé: Développement Web (gr.101)
 
 ## AUTEUR: 
-Bohdan Byrne-Langlois (0873641) Équipier A /n
-Jérémie Ouimet (1568282) Équipier C /n
-Jeremy Poliquin (1356053) Équipier B /n
+- Bohdan Byrne-Langlois (0873641) Équipier A 
+- Jérémie Ouimet (1568282) Équipier C 
+- Jeremy Poliquin (1356053) Équipier B 
 
 # Marche à suivre pour utiliser l'application:
 
@@ -20,7 +20,8 @@ Tout navigateur internet (Chrome, Firefox, Opera fortement conseillés)
 3. L'instalateur se chargera aussi d'installer Npm pendant le processus.
 4. Une fois l'instalation terminée, redémarrer votre ordinateur et la commande Node sera accessible à partir du terminal.
 5. Dans Visual Studio Code, ouvrez le fichier du projet puis lancez un terminal.
-6. Finalement executez la commande "npm run dev" et le serveur est maintenant en marche.
+6. Finalement, executez la commande ```npm run dev``` pour lancer le serveur en mode développeur,
+   ou ```npm run prod``` pour rouler en environement de production.
 
 
 Cégep de Saint-Jérôme, tous droits réservés. 2019 ©
