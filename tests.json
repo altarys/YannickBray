@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "e8a06f75-aadf-47b9-ade3-9a881b2a85c6",
+		"name": "TP1 Yannick Bray",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Equipier A - Sélection d’une succursale avec fields et expand inventaires",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"categorie\":\"Education\",\n\t\"titre\":\"Mein Kampf\",\n\t\"prix\":\"1\",\n\t\"auteur\":\"Jay Ouimet\",\n\t\"sujet\":\"paix mondiale\",\n\t\"ISBN\":\"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4500/succursales/5d84c73c64f05e4958e56516?fields=appelatif,codePostal&expand=inventaires",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"succursales",
+						"5d84c73c64f05e4958e56516"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "appelatif,codePostal"
+						},
+						{
+							"key": "expand",
+							"value": "inventaires"
+						}
+					]
+				},
+				"description": "Sélection d'une succursale par son uuid. \nRetourne un objet Json qui contient la collection d'inventaires si l'utilisateur ajoute le paramètre \"expand=inventaires\" dans l'URL.\nSupporte aussi le retour de seulement certains champ avec le paramètre \"fields=\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Equipier A - Ajout d'un livre",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"categorie\": \"Ouvrage Informatique\",\r\n    \"titre\": \"La biographie de Yannick\",\r\n    \"prix\": \"150\",\r\n    \"auteur\": \"Yannick-C\",\r\n    \"sujet\": \"Python\",\r\n    \"ISBN\": \"123\",\r\n    \"commentaires\":[{\r\n        \"message\": \"Excellent !\",\r\n        \"etoile\": \"5\"\r\n    }]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4500/livres/",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"livres",
+						""
+					]
+				},
+				"description": "Ajout d'un livre.\nLe corps du livre à ajouter devra être ecrit dans le body de la requête sous le format Json.\nRetourne un code création et le Json du livre créé, ainsi que la location du livre dans un header.\nSupporte multiple commentaires."
+			},
+			"response": []
+		},
+		{
+			"name": "Equipier A - Selection de tout les livres",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4500/livres?categorie=Romance",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"livres"
+					],
+					"query": [
+						{
+							"key": "categorie",
+							"value": "Romance"
+						}
+					]
+				},
+				"description": "Selection de tout les livres en BD.\nPossibilité de fournir en paramètre une categorie pour obtenir uniquement les livres appartenant à cette catégorie."
+			},
+			"response": []
+		},
+		{
+			"name": "Equipier B - Sélection de toutes les catégories",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:4500/categories",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Equipier B - Sélection d'un livre ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4500/livres/5d9f62cd8bee161ff05cf980",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"livres",
+						"5d9f62cd8bee161ff05cf980"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Equipier B - Ajout d'un commentaire sur un livre",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"message\":\"Nouveau commentaire\",\n\t\"etoile\":2\n}"
+				},
+				"url": {
+					"raw": "localhost:4500/livres/5d9f62cd8bee161ff05cf980/commentaires",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"livres",
+						"5d9f62cd8bee161ff05cf980",
+						"commentaires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Equipier B - Mise à jour partielle d'un livre",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"commentaires\":[\n\t\t{\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 3,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.374Z\"\n        },\n        {\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 5,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.375Z\"\n        }\n\t],\n\t\"titre\":\"Pomme d'Api\",\n\t\"auteur\":\"Gabriel\",\n\t\"sujet\":\"PrisonScape\",\n\t\"prix\":102\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4500/livres/5d9f62cd8bee161ff05cf980?_body=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"livres",
+						"5d9f62cd8bee161ff05cf980"
+					],
+					"query": [
+						{
+							"key": "_body",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
