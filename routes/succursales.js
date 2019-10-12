@@ -45,7 +45,6 @@ router.get('/:uuidSuccursale', async (req,res,next) => {
         }
         // Obtien une succursale par son id, filtre les champs à retourner
         let succursaleQuery = Succursale.find({_id: req.params.uuidSuccursale},fields);
-
         try {
             // Affiche la liste d'inventaires
             if(req.query.expand === "inventaires"){
@@ -53,7 +52,6 @@ router.get('/:uuidSuccursale', async (req,res,next) => {
             }
             // Requête Async
             let succursale = await succursaleQuery;
-
             // Retourne 404 notfound si la succursale n'existe pas
             if(succursale.length === 0){
                 next(new createError.NotFound(`La succursale avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));

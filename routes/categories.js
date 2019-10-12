@@ -39,15 +39,13 @@ router.get('/', async (req,res,next) => {
 
         // On enregistre les catégories dans le résultats de la collection
         responseBody.results = categories;
-
+        
         // On retourne la collection
         res.status(200).json(responseBody);
     } catch (err)
     {
         next(new createError.InternalServerError(err.message));
-    }
-    
+    }    
 });
-
 
 module.exports = router; 

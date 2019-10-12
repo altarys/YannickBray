@@ -19,6 +19,7 @@ const livreSchema = new Schema({
     collection: 'livres', 
     toJSON: {
         transform: function(doc, ret) {
+            ret.inventaires = doc.inventaires;
             ret.href = `${config.api.baseUrl}/livres/${doc._id}`;
             if (!ret.inventaires) {
                 ret.inventaires = {};
