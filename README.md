@@ -3,8 +3,9 @@
 
 ## AUTEUR: 
 - Bohdan Byrne-Langlois (0873641) Équipier A 
-- Jérémie Ouimet (1568282) Équipier C 
 - Jeremy Poliquin (1356053) Équipier B 
+- Jérémie Ouimet (1568282) Équipier C 
+
 
 # Marche à suivre pour utiliser l'application:
 
