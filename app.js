@@ -17,7 +17,6 @@ require('./models');
 
 const routes = require('./routes');
 
-//app.use('/demo',routes.demo);
 app.use('/succursales', routes.succursales);
 app.use('/livres',routes.livres);
 app.use('/categories', routes.categories);
