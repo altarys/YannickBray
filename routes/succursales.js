@@ -57,12 +57,12 @@ router.get('/:uuidSuccursale', async (req,res,next) => {
             let succursale = await succursaleQuery;
             // Retourne 404 notfound si la succursale n'existe pas
             if(succursale.length === 0){
-                next(new createError.NotFound(`La succursale avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+                next(new createError.NotFound(`La succursale avec l'identifiant ${req.params.uuidSuccursale} n'existe pas.`));
             }
             res.status(200).json(succursale[0]);
         } catch(err)
         {
-            next(new createError.NotFound(`Le livre avec l'identifiant ${req.params.uuidLivre} n'existe pas.`));
+            next(new createError.NotFound(`La succursale avec l'identifiant ${req.params.uuidSuccursale} n'existe pas.`));
         }
     }catch(err){
         next(new createError.InternalServerError(err.message));
