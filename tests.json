@@ -212,10 +212,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"commentaires\":[\n\t\t{\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 3,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.374Z\"\n        },\n        {\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 5,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.375Z\"\n        }\n\t],\n\t\"titre\":\"Pomme d'Api\",\n\t\"auteur\":\"Gabriel\",\n\t\"sujet\":\"PrisonScape\",\n\t\"prix\":102\n}"
+					"raw": "{\n\t\"commentaires\":[\n\t\t{\n            \"message\": \"commentaire modifié rawr\",\n            \"etoile\": 4,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.374Z\"\n        },\n        {\n            \"message\": \"commentaire modifié\",\n            \"etoile\": 5,\n            \"dateCommentaire\": \"2019-10-10T16:56:45.375Z\"\n        }\n\t],\n\t\"titre\":\"Pomme d'Api\",\n\t\"auteur\":\"Gabriel\",\n\t\"sujet\":\"PrisonScape\",\n\t\"prix\":102\n}"
 				},
 				"url": {
-					"raw": "http://localhost:4500/livres/5d9f62cd8bee161ff05cf980?_body=true",
+					"raw": "http://localhost:4500/livres/5d9f642df916a91b1455f752?_body=true",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -223,7 +223,7 @@
 					"port": "4500",
 					"path": [
 						"livres",
-						"5d9f62cd8bee161ff05cf980"
+						"5d9f642df916a91b1455f752"
 					],
 					"query": [
 						{
@@ -293,7 +293,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4500/succursales/5d84c9aa605d4a09b4acc6c7",
+					"raw": "http://localhost:4500/succursales/5d84c973605d4a09b4acc6c6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -301,7 +301,7 @@
 					"port": "4500",
 					"path": [
 						"succursales",
-						"5d84c9aa605d4a09b4acc6c7"
+						"5d84c973605d4a09b4acc6c6"
 					]
 				},
 				"description": "Modification d'une succursale reçu en paramètre"
