@@ -189,23 +189,26 @@ router.post('/',async (req,res,next)=>{
     try {
         // Valide si la requête Json contient un corps, refuse de créer le livre et indique BadRequest si aucun body n'est fourni
         if(!Object.keys(req.body).length)
+        {
             next(new createError.BadRequest(`La requete doit contenir un corps Json pour l'ajout d'un livre`));
-   
-        // Crée un nouveau livre avec les informations reçues dans le body
-        const newLivre = new Livre(req.body);
-         
-        // Pour chaque commentaire du livre, ajout de la date par le serveur
-        newLivre.commentaires.forEach(commentaire => {
-            commentaire.dateCommentaire = new moment();
-        });
-            
-        // Sauvegarde le livre et envoi un code de succès de création
-        let saveLivre = await newLivre.save();
-        res.status(201);
 
-        saveLivre = saveLivre.toJSON();
-        res.header('location',saveLivre.href);
-        res.json(saveLivre);    
+        }else {
+            // Crée un nouveau livre avec les informations reçues dans le body
+            const newLivre = new Livre(req.body);
+
+            // Pour chaque commentaire du livre, ajout de la date par le serveur
+            newLivre.commentaires.forEach(commentaire => {
+                commentaire.dateCommentaire = new moment();
+            });
+
+            // Sauvegarde le livre et envoi un code de succès de création
+            let saveLivre = await newLivre.save();
+            res.status(201);
+
+            saveLivre = saveLivre.toJSON();
+            res.header('location',saveLivre.href);
+            res.json(saveLivre);    
+        }      
     } 
     catch (err) {
         next(new createError.InternalServerError(err.message));
