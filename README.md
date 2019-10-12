@@ -22,7 +22,7 @@ Tout navigateur internet (Chrome, Firefox, Opera fortement conseillés)
 4. Une fois l'installation terminée, redémarrer votre ordinateur et la commande Node sera accessible à partir du terminal.
 5. Dans Visual Studio Code, ouvrez le fichier du projet puis lancez un terminal.
 6. Exécuter la commande ```npm install``` pour installer les modules permettant au serveur de fonctionner.
-6. Finalement, executez la commande ```npm run dev``` pour lancer le serveur en mode développeur,
+7. Finalement, executez la commande ```npm run dev``` pour lancer le serveur en mode développeur,
    ou ```npm run prod``` pour rouler en environement de production.
 
 ## Modifications : 
