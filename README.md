@@ -16,7 +16,7 @@ Tout navigateur internet (Chrome, Firefox, Opera fortement conseillés)
 ## Étapes:
 
 1. Télécharger l'instalateur windows sur le site officiel : https://nodejs.org/en/ et choisir la version "Current".
-2. Executer l'instalateur qui se chargera d'installer la dernière version de Node.js ( 12.12.0 au moment de cette rédaction ).
+2. Executer l'instalateur qui se chargera d'installer la dernière version de Node.js (12.12.0 au moment de cette rédaction).
 3. L'instalateur se chargera aussi d'installer Npm pendant le processus.
 4. Une fois l'instalation terminée, redémarrer votre ordinateur et la commande Node sera accessible à partir du terminale.
 
