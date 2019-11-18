@@ -9,6 +9,34 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const Succursale = mongoose.model('Succursale');
 
+
+router.get('/',async (req,res,next) =>{
+    try{
+            results = await Promise.all([
+            Succursale.find(),
+            Succursale.countDocuments()
+            ])
+            let responseBody = {};
+        responseBody.metadata = {};
+        responseBody.metadata.resultset = {
+            // Ajout du compte d'éléments retournés
+            count : results[0].length,
+            
+            // Total de tout les éléments
+            total : results[1]
+        }
+        // Si aucun livre n'est retourné, on indique au client que la catégorie spécifiée ne contient aucun livre
+        if(results[0].length === 0)
+            next (new createError.NotFound(`Il n'y a aucune succursale`));
+
+        responseBody.results = results[0];   
+        res.status(200).json(responseBody);
+    } catch (err)
+    {
+        next(new createError.InternalServerError(err.message));
+    }    
+})
+
 // Ajout d'une succursale
 router.post ('/', async (req, res, next) => {
     const newSuccursale = new Succursale(req.body);
