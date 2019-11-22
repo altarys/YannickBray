@@ -11,7 +11,8 @@ const livreSchema = new Schema({
     sujet: String,
     ISBN: Number,
     commentaires:[{
-        dateCommentaire:Date,
+        utilisateur: String,
+        dateCommentaire: Date,
         message: String,
         etoile: Number
     }]
