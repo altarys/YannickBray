@@ -22,16 +22,16 @@ router.get('/', async (req,res,next) => {
         
         // Pour chaque livre dans la collection de livres
         livres.forEach(function(livre){
-
-            // Catégorie que l'on va ajouter, elle prend la catégorie du livre itérant
-            let categorieAAjouter = {};
-            categorieAAjouter.nom = livre.categorie
-
-            /*  On exécute une lambda dans le tableau des catégories, et y sort les noms des catégories. 
+            livre.categories.forEach(function(cat) {
+                // Catégorie que l'on va ajouter, elle prend la catégorie du livre itérant
+                let categorieAAjouter = {};
+                categorieAAjouter.nom = cat.nom
+                /*  On exécute une lambda dans le tableau des catégories, et y sort les noms des catégories. 
                 Ensuite on vérifie si la catégorie à ajouter est existante dû à un index déjà utilisé. 
                 Si l'entrée est inexistante, elle va être égale à -1 car la position est introuvable dans le tableau. */
-            if(categories.map(function(categorie) { return categorie.nom; }).indexOf(categorieAAjouter.nom) == -1)
+                if(categories.map(function(categorie) { return categorie.nom; }).indexOf(categorieAAjouter.nom) == -1)
                 categories.push(categorieAAjouter);
+            });
         });
 
         // On crée une collection

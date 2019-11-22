@@ -4,7 +4,9 @@ const config = require('config');
 const Schema = mongoose.Schema;
 
 const livreSchema = new Schema({
-    categorie: String,
+    categories: [{
+        nom: String
+    }],
     titre: String,
     prix: Number,
     auteur: String,
@@ -35,9 +37,17 @@ const livreSchema = new Schema({
             ret.version = doc.__v;
             delete ret.__v;
 
+            if (ret.categories) {
+                ret.categories.forEach(cat => {
+                    delete cat._id;
+                    delete cat.__v;
+                });
+            }
+
             if(ret.commentaires) {
                 ret.commentaires.forEach(c => {
-					delete c._id;
+                    delete c._id;
+                    delete c.__v;
 				});
             }
 

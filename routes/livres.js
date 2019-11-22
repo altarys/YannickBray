@@ -45,17 +45,18 @@ router.get('/', async (req,res,next) =>{
         let results;
         
         if(req.query.categorie)
-        {       
+        {   
+            console.log(req.query.categorie);      
             results = await Promise.all([
-                Livre.find({categorie: req.query.categorie}).limit(limit).skip(offset),
+                Livre.find({"categories.nom": req.query.categorie}).skip(offset),
                 Livre.countDocuments()
-            ])                            
+            ])                          
             // Si le paramètre catégorie existe dans l'url, rechercher uniquement les livres appartenant à cette catégorie     
         }
         else{
             // Sinon, retourne tout les livres de la BD
             results = await Promise.all([
-                Livre.find().limit(limit).skip(offset),
+                Livre.find().skip(offset),
                 Livre.countDocuments()
             ])
         }
