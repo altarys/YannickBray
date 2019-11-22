@@ -3,7 +3,7 @@
     "api":{
         "name":"YannickBray",
         "version":"1.0.0",
-        "baseUrl": "http://localhost:4500",
+        "baseUrl": "http://10.0.2.2:4500",
         "port":4500
     },
     "dbConfig":{
