@@ -45,8 +45,7 @@ router.get('/', async (req,res,next) =>{
         let results;
         
         if(req.query.categorie)
-        {   
-            console.log(req.query.categorie);      
+        {      
             results = await Promise.all([
                 Livre.find({"categories.nom": req.query.categorie}).skip(offset),
                 Livre.countDocuments()
