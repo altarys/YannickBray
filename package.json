@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/altarys/YannickBray#readme",
   "dependencies": {
-    "config": "^3.2.2",
+    "config": "^3.3.8",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
